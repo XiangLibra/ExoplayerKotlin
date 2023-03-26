@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -59,10 +60,12 @@ class MainActivity : AppCompatActivity(), Player.Listener {
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-            requestStoragePermission()
+
 
 
         setContentView(R.layout.activity_main)
+            /**程序運行時保持畫面常亮 */
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         progressBar = findViewById(R.id.progressBar)
 
         titleTv = findViewById(R.id.title)
@@ -229,6 +232,7 @@ class MainActivity : AppCompatActivity(), Player.Listener {
 //    }
      fun setFile() {//設置選擇影片紐
         btVideo.setOnClickListener {
+           // requestStoragePermission()
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "video/*"
 //            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
