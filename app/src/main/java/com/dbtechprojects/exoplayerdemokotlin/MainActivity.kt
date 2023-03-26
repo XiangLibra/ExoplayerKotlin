@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), Player.Listener {
     private lateinit var dataSourceFactory: DataSource.Factory
 
 
-    private val videos = ArrayList<Video>()
+
 
 
 
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity(), Player.Listener {
                             .createMediaSource(fileUri)
 //                        val mediaItem = MediaItem.fromUri(fileUri)
 //                        player.addMediaItem(mediaItem)
-                        concatenatingMediaSource.addMediaSource(mediaSource2)
+                        concatenatingMediaSource.addMediaSource(0,mediaSource2)
                         player.setMediaSource(concatenatingMediaSource)
 //                        player.addMediaItem(mediaItem)
                         player.prepare()
@@ -159,8 +159,8 @@ class MainActivity : AppCompatActivity(), Player.Listener {
         }
     }
 
-    private fun addMP4Files() {
-        val projection = arrayOf(MediaStore.Video.Media.TITLE, MediaStore.Video.Media.DATA)
+//    private fun addMP4Files() {
+//        val projection = arrayOf(MediaStore.Video.Media.TITLE, MediaStore.Video.Media.DATA)
 //        contentResolver.query(
 //            MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
 //            projection,
@@ -169,46 +169,48 @@ class MainActivity : AppCompatActivity(), Player.Listener {
 //            MediaStore.Video.Media.DATE_ADDED + " DESC"
 //        )
 
-        val mediaItem = MediaItem.fromUri(getString(R.string.media_url_mp4))
-        val mediaItem2 = MediaItem.fromUri(getString(R.string.myTestMp4))
+//        val mediaItem = MediaItem.fromUri(getString(R.string.media_url_mp4))
+//        val mediaItem2 = MediaItem.fromUri(getString(R.string.myTestMp4))
 
 //            val path= cursor!!.getString(R.string.myvideo)
 
-            val mediaItem3 = MediaItem.fromUri(getString(R.string.myvideo))
+//            val mediaItem3 = MediaItem.fromUri(getString(R.string.myvideo))
 
 
 
 
 //        val mediaItem3 = MediaItem.fromUri("/storage/emulated/0/Movies/VideoPanda/cpc.mp4")
-        val newItems: List<MediaItem> = ImmutableList.of(
-            mediaItem,
-            mediaItem2 ,
-         //   mediaItem3
-        )
+//        val newItems: List<MediaItem> = ImmutableList.of(
+//            mediaItem,
+//            mediaItem2 ,
+//         //   mediaItem3
+//        )
 
 //        videos.add(Video(mediaItem))
 
-        player.addMediaItems(newItems)
-        player.prepare()
-    }
+//        player.addMediaItems(newItems)
+//        player.prepare()
+//    }
 
-    private fun setupPlayer() {
+    private fun setupPlayer() {//設置撥放器
         player = ExoPlayer.Builder(this).build()
         playerView = findViewById(R.id.video_view)
         playerView.player = player
         player.addListener(this)
+        player.setMediaSource(concatenatingMediaSource)
+
     }
 
-    private fun addMP3() {
+//    private fun addMP3() {
         // Build the media item.
 //        val mediaItem = MediaItem.fromUri(Uri.parse(getString(R.string.test_mp3)))
 //        val dataSourceFactory = DefaultDataSourceFactory(this, Util.getUserAgent(this, "ExoPlayerDemo"))
-        val uri1 = Uri.parse(R.string.test_mp3.toString())
+//        val uri1 = Uri.parse(R.string.test_mp3.toString())
 //        val uri1 = Uri.parse("file:///storage/emulated/0/Movies/VideoPanda/cpc.mp4")
 //        val mediaItem = MediaItem.fromUri(getString(R.string.myvideo))
-        val mediaSource1 = ProgressiveMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(uri1)
-        concatenatingMediaSource.addMediaSource(mediaSource1)
+//        val mediaSource1 = ProgressiveMediaSource.Factory(dataSourceFactory)
+//            .createMediaSource(uri1)
+//        concatenatingMediaSource.addMediaSource(mediaSource1)
 //        val dataSourceFactory = DefaultDataSourceFactory(this, Util.getUserAgent(this, "ExoPlayerDemo"))
 //        val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
 //        concatenatingMediaSource.addMediaSource(mediaSource)
@@ -221,11 +223,11 @@ class MainActivity : AppCompatActivity(), Player.Listener {
 //        player.setMediaSource(concatenatingMediaSource)
 //        player.setMediaItem(mediaItem)
 //        player.setMediaSource(mediaSource)
-        player.setMediaSource(concatenatingMediaSource)
-        // Prepare the player.
-        player.prepare()
-    }
-     fun setFile() {
+//        player.setMediaSource(concatenatingMediaSource)
+//        // Prepare the player.
+//        player.prepare()
+//    }
+     fun setFile() {//設置選擇影片紐
         btVideo.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "video/*"
@@ -265,13 +267,8 @@ class MainActivity : AppCompatActivity(), Player.Listener {
     private fun requestStoragePermission() {
         if (Build.VERSION.SDK_INT >= 23) {
                 requestPermissions(permissions,1)
-//            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-//                // 已經授權，可以進行下一步操作
-//                // 比如初始化ExoPlayer
-//            } else {
-//                // 請求權限
-//                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 123)
-//            }
+
+
         }
     }
 
@@ -310,7 +307,7 @@ class MainActivity : AppCompatActivity(), Player.Listener {
         super.onResume()
         setupPlayer()
 
-        addMP3()
+//        addMP3()
 //        addMP4Files()
 //        getContent
         setFile()//開啟檔案
